@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title></title>
+		<title>3D Scene</title>
 		<meta charset="utf-8">
 		<meta name="generator" content="Three.js Editor">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -21,37 +21,19 @@
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "./js/three.module.js"
+					"three": "./three.module.js"  <!-- Корректируем путь к three.module.js -->
 				}
 			}
 		</script>
 		<script type="module">
-
+			// Загружаем три.js
 			import * as THREE from 'three';
-			import { APP } from './js/app.js';
+			
+			// Загружаем файл app.js (без папки, т.к. все файлы в корне)
+			import { APP } from './app.js';  
 
-			window.THREE = THREE; // Used by APP Scripts.
+			window.THREE = THREE; // Используется скриптами APP
 
+			// Загружаем файл app.json, который содержит сцену
 			var loader = new THREE.FileLoader();
-			loader.load( 'app.json', function ( text ) {
-
-				var player = new APP.Player();
-				player.load( JSON.parse( text ) );
-				player.setSize( window.innerWidth, window.innerHeight );
-				player.play();
-
-				document.body.appendChild( player.dom );
-
-				window.addEventListener( 'resize', function () {
-
-					player.setSize( window.innerWidth, window.innerHeight );
-
-				} );
-
-			} );
-
-
-
-		</script>
-	</body>
-</html>
+			loader.load( 'app.json', function ( text ) {  // Корректируем путь 
