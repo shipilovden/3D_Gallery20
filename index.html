@@ -18,10 +18,11 @@
 		</style>
 	</head>
 	<body ontouchstart="">
+		<!-- Убираем комментарии из блока JSON -->
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "./three.module.js"  <!-- Корректируем путь к three.module.js -->
+					"three": "./three.module.js"
 				}
 			}
 		</script>
@@ -29,11 +30,27 @@
 			// Загружаем три.js
 			import * as THREE from 'three';
 			
-			// Загружаем файл app.js (без папки, т.к. все файлы в корне)
+			// Загружаем файл app.js
 			import { APP } from './app.js';  
 
 			window.THREE = THREE; // Используется скриптами APP
 
 			// Загружаем файл app.json, который содержит сцену
 			var loader = new THREE.FileLoader();
-			loader.load( 'app.json', function ( text ) {  // Корректируем путь 
+			loader.load('app.json', function (text) {
+				var player = new APP.Player();
+				player.load(JSON.parse(text));
+				player.setSize(window.innerWidth, window.innerHeight);
+				player.play();
+
+				// Добавляем сцену на страницу
+				document.body.appendChild(player.dom);
+
+				// Адаптируем сцену при изменении размера окна
+				window.addEventListener('resize', function () {
+					player.setSize(window.innerWidth, window.innerHeight);
+				});
+			});
+		</script>
+	</body>
+</html>
